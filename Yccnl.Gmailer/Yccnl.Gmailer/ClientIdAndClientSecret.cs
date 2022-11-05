@@ -1,4 +1,5 @@
 using Google.Apis.Auth.OAuth2;
+using Google.Apis.Gmail.v1;
 using Google.Apis.Http;
 
 namespace Yccnl.Gmailer;
@@ -7,13 +8,13 @@ public sealed class ClientIdAndClientSecret : ICredentials
 {
     private readonly string _clientId;
     private readonly string _clientSecret;
-    private readonly string _fromEmailAddress;
+    private readonly string _fromAddress;
 
-    public ClientIdAndClientSecret(string clientId, string clientSecret, string fromEmailAddress)
+    public ClientIdAndClientSecret(string clientId, string clientSecret, string fromAddress)
     {
         _clientId = clientId;
         _clientSecret = clientSecret;
-        _fromEmailAddress = fromEmailAddress;
+        _fromAddress = fromAddress;
     }
     
     async Task<IConfigurableHttpClientInitializer> ICredentials.CreateInitializer()
@@ -24,8 +25,8 @@ public sealed class ClientIdAndClientSecret : ICredentials
                 ClientId = _clientId,
                 ClientSecret = _clientSecret
             },
-            new[] { "https://www.googleapis.com/auth/gmail.send" },
-            _fromEmailAddress,
+            new[] { GmailService.Scope.GmailSend },
+            _fromAddress,
             CancellationToken.None);
 
         return credential;
