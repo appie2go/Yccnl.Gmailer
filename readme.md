@@ -76,6 +76,7 @@ Dim credentials = new ClientIdAndClientSecret("[insert-client-id-here]", "[inser
 credentials.Renew()
 ```
 
+To configure your Google account properly, follow the steps described in [this article](https://abstarreveld.medium.com/fixing-the-gmail-smtp-problem-in-c-75134b31ea5e).
 
 ## Server-to-server use cases (Service Account)
 
