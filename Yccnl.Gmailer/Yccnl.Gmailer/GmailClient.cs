@@ -50,7 +50,7 @@ namespace Yccnl.Gmailer
             using var service = new GmailService(new BaseClientService.Initializer
             {
                 HttpClientInitializer = await _credentials.CreateInitializer(),
-                ApplicationName = _applicationName,
+                ApplicationName = _applicationName
             });
 
             var request = service.Users.Messages.Send(gmailMessage, "me");

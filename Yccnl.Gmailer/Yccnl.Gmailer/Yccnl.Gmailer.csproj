@@ -6,10 +6,10 @@
         <TargetFrameworks>net47;net471;net472;net48;net5.0;net6.0;netcoreapp3.1;netstandard2.0;netstandard2.1</TargetFrameworks>
 
         <PackageId>Yccnl.Gmail</PackageId>
-        <Version>0.0.2</Version>
+        <Version>0.0.4</Version>
         <Authors>Albert Starreveld</Authors>
         <Company>Yccnl</Company>
-        <PackageVersion>0.0.3</PackageVersion>
+        <PackageVersion>0.0.4</PackageVersion>
         <Description>Use this library to send mail from your .net project.</Description>
         <PackageProjectUrl>https://github.com/appie2go/Yccnl.Gmailer</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/appie2go/Yccnl.Gmailer/blob/main/license.txt</PackageLicenseUrl>

@@ -67,13 +67,13 @@ It is likely that you'll fiddle around with client_ids and client_secrets in the
 When you renew client_ids and client_secrets, be sure to enforce reauthentication. Like so:
 
 ```C#
-bool enforceReauthentication = true;
-var credentials = new ClientIdAndClientSecret("[insert-client-id-here]", "[insert-client-secret-here]", "you@gmail.com", enforceReauthentication);
+var credentials = new ClientIdAndClientSecret("[insert-client-id-here]", "[insert-client-secret-here]", "you@gmail.com");
+credentials.Renew();
 ```
 or:
 ```VB
-Dim enforceReauthentication = true;
-Dim credentials = new ClientIdAndClientSecret("[insert-client-id-here]", "[insert-client-secret-here]", "you@gmail.com", enforceReauthentication);
+Dim credentials = new ClientIdAndClientSecret("[insert-client-id-here]", "[insert-client-secret-here]", "you@gmail.com")
+credentials.Renew()
 ```
 
 
