@@ -2,33 +2,34 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Gmail.v1;
 using Google.Apis.Http;
 
-namespace Yccnl.Gmailer;
-
-public sealed class ClientIdAndClientSecret : ICredentials
+namespace Yccnl.Gmailer
 {
-    private readonly string _clientId;
-    private readonly string _clientSecret;
-    private readonly string _fromAddress;
-
-    public ClientIdAndClientSecret(string clientId, string clientSecret, string fromAddress)
+    public sealed class ClientIdAndClientSecret : ICredentials
     {
-        _clientId = clientId;
-        _clientSecret = clientSecret;
-        _fromAddress = fromAddress;
-    }
-    
-    async Task<IConfigurableHttpClientInitializer> ICredentials.CreateInitializer()
-    {
-        var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-            new ClientSecrets
-            {
-                ClientId = _clientId,
-                ClientSecret = _clientSecret
-            },
-            new[] { GmailService.Scope.GmailSend },
-            _fromAddress,
-            CancellationToken.None);
+        private readonly string _clientId;
+        private readonly string _clientSecret;
+        private readonly string _fromAddress;
 
-        return credential;
+        public ClientIdAndClientSecret(string clientId, string clientSecret, string fromAddress)
+        {
+            _clientId = clientId;
+            _clientSecret = clientSecret;
+            _fromAddress = fromAddress;
+        }
+
+        async Task<IConfigurableHttpClientInitializer> ICredentials.CreateInitializer()
+        {
+            var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+                new ClientSecrets
+                {
+                    ClientId = _clientId,
+                    ClientSecret = _clientSecret
+                },
+                new[] { GmailService.Scope.GmailSend },
+                _fromAddress,
+                CancellationToken.None);
+
+            return credential;
+        }
     }
 }
