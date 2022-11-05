@@ -8,7 +8,7 @@ Instead you can send e-mails using the Google API. But i.m.o. this API is a pain
 
 
 ```ps
-dotnet add package Yccnl.Gmail --version 0.0.3
+dotnet add package Yccnl.Gmail --version 0.0.4
 ```
 
 ## How to use it in a console or a desktop app (OAuth 2.0 Client Id)
