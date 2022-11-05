@@ -1,6 +1,6 @@
 # Yccnl.Gmailer
 
-Since may 2022, Gmail no longer supports sending e-mails programatically using the SMTP protocol. 
+Since may 2022, Gmail no longer supports sending e-mails programatically using the SMTP protocol.
 
 ## Alternative to sending mails with SMTP
 
@@ -8,7 +8,7 @@ Instead you can send e-mails using the Google API. But i.m.o. this API is a pain
 
 
 ```ps
-dotnet add package Yccnl.Gmail --version 0.0.1
+dotnet add package Yccnl.Gmail --version 0.0.2
 ```
 
 ## How to use it in a console or a desktop app
@@ -61,7 +61,7 @@ message.To.Add("recipient@domain.com");
 message.Subject = "Test";
 message.Body = "It works!!";
 
-var keyFile = System.IO.File.ReadAllBytes("key.json"); 
+var keyFile = System.IO.File.ReadAllBytes("key.json");
 var credentials = new ServiceAccountKeyCredentials(keyFile, "you@gmail.com");
 var client = new GmailClient(credentials, "MyApp");
 await client.Send(message);
