@@ -1,6 +1,6 @@
 # Yccnl.Gmailer
 
-Since may 2022, Gmail no longer supports sending e-mails programatically using the SMTP protocol.
+Since may 2022, Gmail no longer supports sending e-mails programatically using the SMTP protocol. 
 
 ## Alternative to sending mails with SMTP
 
@@ -8,18 +8,21 @@ Instead you can send e-mails using the Google API. But i.m.o. this API is a pain
 
 
 ```ps
-dotnet add package Yccnl.Gmail --version 0.0.2
+dotnet add package Yccnl.Gmail --version 0.0.3
 ```
 
-## How to use it in a console or a desktop app
+## How to use it in a console or a desktop app (OAuth 2.0 Client Id)
+To use this library, create a OAuth 2.0 Client id in the Google Cloud Console. This is where you create the client_id and the secret you'll need in the code. Then, download the Yccnl.Gmail NuGet package in your project and create a new instance of the GailClient class.
 
-### Configure your gmail properly:
+Note: Use using the OAuth 2.0 Client Id does not require a Google workspace. As a result, Google will prompt the end-user to authenticate once, the first time you start the application. This is problematic for web apps or stand-alone processes. In that case, use the service account approach.
+
+### Configuring Google/gMail:
 
 * Go to [https://console.cloud.google.com/apis](https://console.cloud.google.com/apis)
 * Click `Credentials`, and click `Create credentials`
-* Create an `OAuth Client Id` for a `Desktop App` and copy the client_id and the client_secret
+* Create an `OAuth Client Id` for a `Desktop App` and copy the client_id and the client_secret.
 
-### Use it without google workspaces in a desktop-app or a console app:
+### The C# code:
 If you're using C#, be sure to add the appropriate 'using':
 
 ```C#
@@ -39,15 +42,48 @@ var client = new GmailClient(credentials, "MyApp");
 await client.Send(message);
 ```
 
-Not that using a client-id and a client-secret, when you start up your app for the first time, Google will pop up a browser window asking you to authenticate. This method is unfit for web apps. What is convenient though, is that this method does not require you to create a Google Workspace.
+### The VB.NET code:
 
-## Use it with server-to-server use cases
+If you're using VB, be sure to add the appropriate 'imports':
+```VB
+Imports Yccnl.Gmailer
+```
 
-As mentioned earlier, the method above is unfit for server-to-server web apps. In that case, go to [https://console.cloud.google.com/apis](https://console.cloud.google.com/apis) and create a service account. Create a key, and download the corresponding p12 certificate or a json key. Be sure to enable domain wide delegation. How to do this exactly has been described in this article:
+Use the following code to send an e-mail. The library can send 'normal' system.net.mail objects.
+
+```VB
+Dim message = new System.Net.Mail.MailMessage()
+message.To.Add("recipient@domain.com")
+message.Subject = "Test"
+message.Body = "It works!!"
+
+Dim credentials = new ClientIdAndClientSecret("[insert-client-id-here]", "[insert-client-secret-here]", "you@gmail.com")
+Dim client = new GmailClient(credentials, "MyApp")
+client.Send(message).Wait()
+```
+### Forcing reauthentication
+It is likely that you'll fiddle around with client_ids and client_secrets in the Google Cloud Console. But once you've succesfully started your application, these credentials are pretty 'sticky'. So when you think you are using a new client_id and client_secret (because that's in the code), Google might still use the previous client_id and client_secret.
+
+When you renew client_ids and client_secrets, be sure to enforce reauthentication. Like so:
+
+```C#
+bool enforceReauthentication = true;
+var credentials = new ClientIdAndClientSecret("[insert-client-id-here]", "[insert-client-secret-here]", "you@gmail.com", enforceReauthentication);
+```
+or:
+```VB
+Dim enforceReauthentication = true;
+Dim credentials = new ClientIdAndClientSecret("[insert-client-id-here]", "[insert-client-secret-here]", "you@gmail.com", enforceReauthentication);
+```
+
+
+## Server-to-server use cases (Service Account)
+
+As mentioned earlier, the method above is unfit for server-to-server web apps. When you have a server-to-server, or a stand-alone/daemon-like use-case, go to [https://console.cloud.google.com/apis](https://console.cloud.google.com/apis) and create a service account. Create a key, and download the corresponding p12 certificate or a json key. Be sure to enable domain wide delegation. How to do this exactly has been described in this article:
 
 [https://developers.google.com/identity/protocols/oauth2/service-account#delegatingauthority](https://developers.google.com/identity/protocols/oauth2/service-account#delegatingauthority)
 
-Sending e-mails from the server side with this library is done as follows:
+Note that in this case you need a Google Workspace subscription. Sending e-mails from the server side with this library is done as follows:
 
 Include the appropriate using:
 ```C#
@@ -61,7 +97,7 @@ message.To.Add("recipient@domain.com");
 message.Subject = "Test";
 message.Body = "It works!!";
 
-var keyFile = System.IO.File.ReadAllBytes("key.json");
+var keyFile = System.IO.File.ReadAllBytes("key.json"); 
 var credentials = new ServiceAccountKeyCredentials(keyFile, "you@gmail.com");
 var client = new GmailClient(credentials, "MyApp");
 await client.Send(message);
@@ -72,4 +108,6 @@ That's all!
 __!!This feature has not been fully tested yet. Any feedback is appreciated!!__
 
 ## What do you think?
-Let me know what you think. Please report issues in the 'issues' section!
+Let me know what you think. Please report any issues [here](https://github.com/appie2go/Yccnl.Gmailer/issues) or create a pull request.
+
+Cheers!

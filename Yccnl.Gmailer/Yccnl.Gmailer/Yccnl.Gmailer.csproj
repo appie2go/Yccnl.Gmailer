@@ -9,6 +9,11 @@
         <Version>0.0.2</Version>
         <Authors>Albert Starreveld</Authors>
         <Company>Yccnl</Company>
+        <PackageVersion>0.0.3</PackageVersion>
+        <Description>Use this library to send mail from your .net project.</Description>
+        <PackageProjectUrl>https://github.com/appie2go/Yccnl.Gmailer</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/appie2go/Yccnl.Gmailer/blob/main/license.txt</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/appie2go/Yccnl.Gmailer</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
